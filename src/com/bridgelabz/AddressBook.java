@@ -1,23 +1,30 @@
 package com.bridgelabz;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddressBook {
-    static int contactID;
-    static Contact AddressBook[]=new Contact[10];
-
+    static ArrayList <Contact> AddressBook=new ArrayList();
     Contact contact;
+    static  Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.println("Welcome to Address Book System");
-        AddressBook addressBook = new AddressBook();
-        Contact contact1 =addressBook.createContact();
-        System.out.println(contact1);
+        System.out.println("Welcome to Address Book");
+
+        AddressBook addressBook=new AddressBook();
+        Contact contact=addressBook.createContact();
+        addressBook.addContact(contact);
+        System.out.println(contact);
+
+        System.out.println("enter name to edit contact");
+        String name=sc.next();
+        addressBook.editContact(name);
+        System.out.println(contact);
     }
+
     Contact createContact(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter First Name");
-        String firstname = sc.next();
+        System.out.println("Enter first name");
+        String firstName=sc.next();
         System.out.println("Enter last name");
         String lastName=sc.next();
         System.out.println("Enter address");
@@ -32,12 +39,38 @@ public class AddressBook {
         long phoneNumber=sc.nextLong();
         System.out.println("Enter Email");
         String email=sc.next();
-        System.out.println("Created new contact\n");
-        Contact contact = new Contact(firstname,lastName,address,city,state,zipCode,phoneNumber,email);
+
+        Contact contact=new Contact(firstName,lastName,address,city,state,zipCode,phoneNumber,email);
+        System.out.println("created new contact");
         return contact;
     }
+
     void addContact(Contact contact){
-    AddressBook[contactID++]=contact;
+        AddressBook.add(contact);
         System.out.println("contact added to AddressBook");
+    }
+    void editContact(String name){
+        for (Contact contact : AddressBook){
+            if (contact.firstName.equalsIgnoreCase(name)) {
+                System.out.println("Enter first name");
+                contact.firstName=sc.next();
+                System.out.println("Enter last name");
+                contact.lastName=sc.next();
+                System.out.println("Enter address");
+                contact.address=sc.next();
+                System.out.println("Enter city");
+                contact.city=sc.next();
+                System.out.println("Enter state");
+                contact.state=sc.next();
+                System.out.println("Enter ZipCode");
+                contact.zipCode=sc.nextInt();
+                System.out.println("Enter phoneNumber");
+                contact.phoneNumber=sc.nextLong();
+                System.out.println("Enter Email");
+                contact.email=sc.next();
+                System.out.println("contact updated successfully.");
+                break;
+            }
+        }
     }
 }
