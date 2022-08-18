@@ -3,6 +3,9 @@ package com.bridgelabz;
 import java.util.Scanner;
 
 public class AddressBook {
+    static int contactID;
+    static Contact AddressBook[]=new Contact[10];
+
     Contact contact;
 
     public static void main(String[] args) {
@@ -32,5 +35,9 @@ public class AddressBook {
         System.out.println("Created new contact\n");
         Contact contact = new Contact(firstname,lastName,address,city,state,zipCode,phoneNumber,email);
         return contact;
+    }
+    void addContact(Contact contact){
+    AddressBook[contactID++]=contact;
+        System.out.println("contact added to AddressBook");
     }
 }
