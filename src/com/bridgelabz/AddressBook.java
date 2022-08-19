@@ -20,6 +20,7 @@ public class AddressBook {
         String name=sc.next();
         addressBook.editContact(name);
         System.out.println(contact);
+        addressBook.deleteContact();
     }
 
     Contact createContact(){
@@ -69,6 +70,17 @@ public class AddressBook {
                 System.out.println("Enter Email");
                 contact.email=sc.next();
                 System.out.println("contact updated successfully.");
+                break;
+            }
+        }
+    }
+    void deleteContact(){
+        System.out.println("Enter name to delete contact ");
+        String name = sc.next();
+        for(Contact contact : AddressBook){
+            if(contact.firstName.equalsIgnoreCase(name)){
+                AddressBook.remove(contact);
+                System.out.println("contact delete ");
                 break;
             }
         }
