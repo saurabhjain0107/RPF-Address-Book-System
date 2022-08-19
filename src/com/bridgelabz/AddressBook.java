@@ -12,15 +12,30 @@ public class AddressBook {
         System.out.println("Welcome to Address Book");
 
         AddressBook addressBook=new AddressBook();
-        Contact contact=addressBook.createContact();
-        addressBook.addContact(contact);
-        System.out.println(contact);
 
-        System.out.println("enter name to edit contact");
-        String name=sc.next();
-        addressBook.editContact(name);
-        System.out.println(contact);
-        addressBook.deleteContact();
+       boolean flag = true;
+        while (flag){
+            System.out.println("****\nselect option: \n1. Add Contact \n2 Edit Contact \n3. Delete Contact \n4. Exit");
+            int option = sc.nextInt();
+            switch (option){
+                case 1:
+                    Contact contact=addressBook.createContact();
+                    addressBook.addContact(contact);
+                    break;
+                case 2:
+                    addressBook.editContact();
+                    break;
+                case 3:
+                    addressBook.deleteContact();
+                    break;
+                case 4:
+                    flag = false;
+                    break;
+                default:
+                    System.out.println(option+"is not valid");
+                    break;
+            }
+        }
     }
 
     Contact createContact(){
@@ -50,7 +65,9 @@ public class AddressBook {
         AddressBook.add(contact);
         System.out.println("contact added to AddressBook");
     }
-    void editContact(String name){
+    void editContact(){
+        System.out.println("enter name to edit contact");
+        String name=sc.next();
         for (Contact contact : AddressBook){
             if (contact.firstName.equalsIgnoreCase(name)) {
                 System.out.println("Enter first name");
