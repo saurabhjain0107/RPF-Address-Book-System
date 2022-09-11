@@ -5,35 +5,35 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class AddressBook {
-    static HashMap<String,ArrayList> AddressBookList=new HashMap<String, ArrayList>();
-    static ArrayList <ContactPerson> currentAddressBook;
+    static HashMap<String, ArrayList> addressBookList = new HashMap<String, ArrayList>();
+    static ArrayList<ContactPerson> currentAddressBook;
     static String currentAddressBookName;
-    static Scanner scanner=new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
 
-    ContactPerson createContact(){
+    ContactPerson createContact() {
         System.out.println("Enter first name");
-        String firstName=scanner.next();
+        String firstName = scanner.next();
         System.out.println("Enter last name");
-        String lastName=scanner.next();
+        String lastName = scanner.next();
         System.out.println("Enter address");
-        String address=scanner.next();
+        String address = scanner.next();
         System.out.println("Enter city");
-        String city=scanner.next();
+        String city = scanner.next();
         System.out.println("Enter state");
-        String state=scanner.next();
+        String state = scanner.next();
         System.out.println("Enter ZipCode");
-        int zipCode=scanner.nextInt();
+        int zipCode = scanner.nextInt();
         System.out.println("Enter phoneNumber");
-        long phoneNumber=scanner.nextLong();
+        long phoneNumber = scanner.nextLong();
         System.out.println("Enter Email");
-        String email=scanner.next();
+        String email = scanner.next();
 
-        ContactPerson person=new ContactPerson(firstName,lastName,address,city,state,zipCode,phoneNumber,email);
+        ContactPerson person = new ContactPerson(firstName, lastName, address, city, state, zipCode, phoneNumber, email);
         System.out.println("created new contact");
         return person;
     }
 
-    void addContact(ContactPerson person){
+    void addContact(ContactPerson person) {
         boolean isDuplicate = checkDuplicateContact(person);
         if (isDuplicate) {
             System.out.println("Contact name already exists");
@@ -43,10 +43,11 @@ public class AddressBook {
             System.out.println(person);
         }
     }
-    void editContact(){
+
+    void editContact() {
         System.out.println("enter name to edit contact");
-        String name=scanner.next();
-        for (ContactPerson person : currentAddressBook){
+        String name = scanner.next();
+        for (ContactPerson person : currentAddressBook) {
             if (person.getFirstName().equalsIgnoreCase(name)) {
                 System.out.println("Enter first name");
                 person.setFirstName(scanner.next());
@@ -71,14 +72,14 @@ public class AddressBook {
         }
     }
 
-    void deleteContact(){
-        boolean isContactFound=false;
+    void deleteContact() {
+        boolean isContactFound = false;
         System.out.println("enter name to delete contact");
-        String name=scanner.next();
-        for (ContactPerson contact : currentAddressBook){
+        String name = scanner.next();
+        for (ContactPerson contact : currentAddressBook) {
             if (contact.getFirstName().equalsIgnoreCase(name)) {
                 System.out.println("contact found:");
-                isContactFound=true;
+                isContactFound = true;
                 System.out.println(contact);
                 System.out.println("confirm to delete (y/n)");
                 if (scanner.next().equalsIgnoreCase("y")) {
@@ -92,37 +93,83 @@ public class AddressBook {
             System.out.println("Opps... contact not found");
         }
     }
-    void addNewAddressBook(){
-        System.out.println("Enter name for AddressBook");
-        String AddressBookName=scanner.next();
-        ArrayList <ContactPerson> AddressBook=new ArrayList();
-        AddressBookList.put(AddressBookName,AddressBook);
-        System.out.println("new AddressBook created");
-        currentAddressBook=AddressBookList.get(AddressBookName);
-        currentAddressBookName=AddressBookName;
-    }
-    void selectAddressBook(){
-        System.out.println(AddressBookList.keySet());
-        System.out.println("enter name of address book");
-        String addressBookName=scanner.next();
 
-        for (String key :AddressBookList.keySet()) {
-            if (key.equalsIgnoreCase(addressBookName)){
-                currentAddressBook=AddressBookList.get(key);
-                currentAddressBookName=key;
+    void addNewAddressBook() {
+        System.out.println("Enter name for AddressBook");
+        String AddressBookName = scanner.next();
+        ArrayList<ContactPerson> AddressBook = new ArrayList();
+        addressBookList.put(AddressBookName, AddressBook);
+        System.out.println("new AddressBook created");
+        currentAddressBook = addressBookList.get(AddressBookName);
+        currentAddressBookName = AddressBookName;
+    }
+
+    void selectAddressBook() {
+        System.out.println(addressBookList.keySet());
+        System.out.println("enter name of address book");
+        String addressBookName = scanner.next();
+
+        for (String key : addressBookList.keySet()) {
+            if (key.equalsIgnoreCase(addressBookName)) {
+                currentAddressBook = addressBookList.get(key);
+                currentAddressBookName = key;
             }
         }
-        System.out.println("current AddressBook is "+currentAddressBookName);
+        System.out.println("current AddressBook is " + currentAddressBookName);
 
     }
-    void showContacts(ArrayList addressBook){
+
+    void showContacts(ArrayList addressBook) {
         System.out.println("Contacts: ");
         for (Object p : addressBook) {
-            ContactPerson person= (ContactPerson) p;
+            ContactPerson person = (ContactPerson) p;
             System.out.println(person);
         }
     }
+
     boolean checkDuplicateContact(ContactPerson newPerson) {
         return currentAddressBook.stream().anyMatch((person) -> person.getFirstName().equalsIgnoreCase(newPerson.getFirstName()));
     }
-}
+
+    void searchContact() {
+        System.out.println("1. Search by City \n2.Search by State");
+        int option = scanner.nextInt();
+        switch (option) {
+            case 1:
+                System.out.println("Enter city :");
+                searchByCity(scanner.next());
+                break;
+            case 2:
+                System.out.println("Enter State :");
+                searchByState(scanner.next());
+                break;
+            default:
+                searchContact();
+        }
+    }
+
+        void searchByCity (String city){
+            System.out.println("Search Result: ");
+            for (String addressBookName : addressBookList.keySet()) {
+                for (Object p : addressBookList.get(addressBookName)) {
+                    ContactPerson person = (ContactPerson) p;
+                    if (person.getCity().equalsIgnoreCase(city)) {
+                        System.out.println(person);
+                    }
+                }
+            }
+        }
+
+        void searchByState (String state){
+            System.out.println("Search Result: ");
+            for (String addressBookName : addressBookList.keySet()) {
+                for (Object p : addressBookList.get(addressBookName)) {
+                    ContactPerson person = (ContactPerson) p;
+                    if (person.getState().equalsIgnoreCase(state)) {
+                        System.out.println(person);
+                    }
+                }
+            }
+        }
+    }
+
