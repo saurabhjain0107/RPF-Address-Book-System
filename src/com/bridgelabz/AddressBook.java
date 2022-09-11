@@ -34,9 +34,14 @@ public class AddressBook {
     }
 
     void addContact(ContactPerson person){
-        currentAddressBook.add(person);
-        System.out.println("contact added to AddressBook "+currentAddressBookName);
-        System.out.println(person);
+        boolean isDuplicate = checkDuplicateContact(person);
+        if (isDuplicate) {
+            System.out.println("Contact name already exists");
+        } else {
+            currentAddressBook.add(person);
+            System.out.println("contact added to AddressBook " + currentAddressBookName);
+            System.out.println(person);
+        }
     }
     void editContact(){
         System.out.println("enter name to edit contact");
@@ -116,5 +121,8 @@ public class AddressBook {
             ContactPerson person= (ContactPerson) p;
             System.out.println(person);
         }
+    }
+    boolean checkDuplicateContact(ContactPerson newPerson) {
+        return currentAddressBook.stream().anyMatch((person) -> person.getFirstName().equalsIgnoreCase(newPerson.getFirstName()));
     }
 }
