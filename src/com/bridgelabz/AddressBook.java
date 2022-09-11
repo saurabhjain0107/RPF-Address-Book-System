@@ -1,43 +1,16 @@
 package com.bridgelabz;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class AddressBook {
-
-    static ArrayList <Contact> AddressBook=new ArrayList();
+    static HashMap<String,ArrayList> AddressBookList=new HashMap<String, ArrayList>();
+    static ArrayList <ContactPerson> currentAddressBook;
+    static String currentAddressBookName;
     static Scanner scanner=new Scanner(System.in);
-    public static void main(String[] args) {
-        System.out.println("Welcome to Address Book");
 
-        AddressBook addressBook=new AddressBook();
-
-        boolean flag=true;
-        while (flag){
-            System.out.println("**************\nSelect option: \n1.Add Contact \n2.Edit Contact \n3.Delete Contact \n4.Exit");
-            int option=scanner.nextInt();
-            switch (option){
-                case 1:
-                    Contact contact=addressBook.createContact();
-                    addressBook.addContact(contact);
-                    break;
-                case 2:
-                    addressBook.editContact();
-                    break;
-                case 3:
-                    addressBook.deleteContact();
-                    break;
-                case 4:
-                    flag=false;
-                    break;
-                default:
-                    System.out.println(option+" is not valid option");
-                    break;
-            }
-        }
-    }
-
-    Contact createContact(){
+    ContactPerson createContact(){
         System.out.println("Enter first name");
         String firstName=scanner.next();
         System.out.println("Enter last name");
@@ -55,57 +28,93 @@ public class AddressBook {
         System.out.println("Enter Email");
         String email=scanner.next();
 
-        Contact contact=new Contact(firstName,lastName,address,city,state,zipCode,phoneNumber,email);
+        ContactPerson person=new ContactPerson(firstName,lastName,address,city,state,zipCode,phoneNumber,email);
         System.out.println("created new contact");
-        return contact;
+        return person;
     }
 
-    void addContact(Contact contact){
-        AddressBook.add(contact);
-        System.out.println("contact added to AddressBook");
+    void addContact(ContactPerson person){
+        currentAddressBook.add(person);
+        System.out.println("contact added to AddressBook "+currentAddressBookName);
+        System.out.println(person);
     }
     void editContact(){
         System.out.println("enter name to edit contact");
         String name=scanner.next();
-        for (Contact contact : AddressBook){
-            if (contact.firstName.equalsIgnoreCase(name)) {
+        for (ContactPerson person : currentAddressBook){
+            if (person.getFirstName().equalsIgnoreCase(name)) {
                 System.out.println("Enter first name");
-                contact.firstName=scanner.next();
+                person.setFirstName(scanner.next());
                 System.out.println("Enter last name");
-                contact.lastName=scanner.next();
+                person.setLastName(scanner.next());
                 System.out.println("Enter address");
-                contact.address=scanner.next();
+                person.setAddress(scanner.next());
                 System.out.println("Enter city");
-                contact.city=scanner.next();
+                person.setCity(scanner.next());
                 System.out.println("Enter state");
-                contact.state=scanner.next();
+                person.setState(scanner.next());
                 System.out.println("Enter ZipCode");
-                contact.zipCode=scanner.nextInt();
+                person.setZipCode(scanner.nextInt());
                 System.out.println("Enter phoneNumber");
-                contact.phoneNumber=scanner.nextLong();
+                person.setPhoneNumber(scanner.nextLong());
                 System.out.println("Enter Email");
-                contact.email=scanner.next();
+                person.setEmail(scanner.next());
                 System.out.println("contact updated successfully.");
-                System.out.println(contact);
+                System.out.println(person);
                 break;
             }
         }
     }
 
     void deleteContact(){
+        boolean isContactFound=false;
         System.out.println("enter name to delete contact");
         String name=scanner.next();
-        for (Contact contact : AddressBook){
-            if (contact.firstName.equalsIgnoreCase(name)) {
+        for (ContactPerson contact : currentAddressBook){
+            if (contact.getFirstName().equalsIgnoreCase(name)) {
                 System.out.println("contact found:");
+                isContactFound=true;
                 System.out.println(contact);
                 System.out.println("confirm to delete (y/n)");
                 if (scanner.next().equalsIgnoreCase("y")) {
-                    AddressBook.remove(contact);
+                    currentAddressBook.remove(contact);
                     System.out.println("contact deleted");
                 }
                 break;
             }
+        }
+        if (isContactFound == false) {
+            System.out.println("Opps... contact not found");
+        }
+    }
+    void addNewAddressBook(){
+        System.out.println("Enter name for AddressBook");
+        String AddressBookName=scanner.next();
+        ArrayList <ContactPerson> AddressBook=new ArrayList();
+        AddressBookList.put(AddressBookName,AddressBook);
+        System.out.println("new AddressBook created");
+        currentAddressBook=AddressBookList.get(AddressBookName);
+        currentAddressBookName=AddressBookName;
+    }
+    void selectAddressBook(){
+        System.out.println(AddressBookList.keySet());
+        System.out.println("enter name of address book");
+        String addressBookName=scanner.next();
+
+        for (String key :AddressBookList.keySet()) {
+            if (key.equalsIgnoreCase(addressBookName)){
+                currentAddressBook=AddressBookList.get(key);
+                currentAddressBookName=key;
+            }
+        }
+        System.out.println("current AddressBook is "+currentAddressBookName);
+
+    }
+    void showContacts(ArrayList addressBook){
+        System.out.println("Contacts: ");
+        for (Object p : addressBook) {
+            ContactPerson person= (ContactPerson) p;
+            System.out.println(person);
         }
     }
 }
