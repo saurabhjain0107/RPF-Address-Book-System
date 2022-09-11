@@ -18,12 +18,14 @@ public class AddressBookMain {
             System.out.println("Select option: \n" +
                     "1.Add Contact \n" +
                     "2.Edit Contact\n" +
-                    "3.view Contacts \n" +
+                    "3.view Contact \n" +
                     "4.Delete Contact \n" +
                     "5.Add New AddressBook \n" +
                     "6.Select AddressBook \n" +
                     "7.Search Contact \n" +
-                    "8.Exit");
+                    "8.Show number of Contact \n" +
+                    "9.Sort Contacts \n" +
+                    "10.Exit");
             int option=scanner.nextInt();
             switch (option){
                 case 1:
@@ -52,6 +54,9 @@ public class AddressBookMain {
                     addressBook.showContactCount();
                     break;
                 case 9:
+                    addressBook.sortContact();
+                    break;
+                case 10:
                     flag1=false;
                     break;
                 default:
