@@ -8,6 +8,8 @@ public class AddressBook {
     static HashMap<String, ArrayList> addressBookList = new HashMap<String, ArrayList>();
     static ArrayList<ContactPerson> currentAddressBook;
     static String currentAddressBookName;
+    static HashMap<String, ContactPerson> cityContactList = new HashMap<>();
+    static HashMap<String, ContactPerson> stateContactList = new HashMap<>();
     static Scanner scanner = new Scanner(System.in);
 
     ContactPerson createContact() {
@@ -124,6 +126,40 @@ public class AddressBook {
         for (Object p : addressBook) {
             ContactPerson person = (ContactPerson) p;
             System.out.println(person);
+        }
+    }
+    void viewContacts() {
+        System.out.println("*****************************\n1.View by City \n2.View by State");
+        switch (scanner.nextInt()) {
+            case 1:
+                viewContactByCity();
+                break;
+            case 2:
+                viewContactByState();
+                break;
+            default:
+                viewContacts();
+                break;
+        }
+    }
+
+    void viewContactByCity() {
+        System.out.println("Enter City:");
+        String city = scanner.next();
+        for (String key : cityContactList.keySet()) {
+            if (key.equalsIgnoreCase(city)){
+                System.out.println(cityContactList.get(city));
+            }
+        }
+    }
+
+    void viewContactByState() {
+        System.out.println("Enter State:");
+        String state = scanner.next();
+        for (String key : stateContactList.keySet()) {
+            if (key.equalsIgnoreCase(state)){
+                System.out.println(stateContactList.get(state));
+            }
         }
     }
 
