@@ -5,12 +5,9 @@ import java.util.Scanner;
 public class AddressBookMain {
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book");
-
         AddressBook addressBook=new AddressBook();
         Scanner scanner=new Scanner(System.in);
-
         addressBook.addNewAddressBook();
-
         boolean flag1=true;
         while (flag1){
             System.out.println("*************\n"+AddressBook.addressBookList.keySet());

@@ -87,7 +87,6 @@ public class ContactPerson {
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
-
     @Override
     public String toString() {
         return "ContactPerson{" +
