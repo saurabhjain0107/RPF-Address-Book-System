@@ -1,5 +1,7 @@
 package com.bridgelabz;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -258,13 +260,20 @@ public class AddressBook {
                 break;
         }
     }
-
     List<ContactPerson> getAllContacts(){
         List<ContactPerson> allContacts=new ArrayList<>();
         for (String key: addressBookList.keySet()) {
             allContacts.addAll(addressBookList.get(key));
         }
         return allContacts;
+    }
+    void readAddressBook() throws FileNotFoundException {
+        FileIO.read();
+    }
+    void writeAddressBook() throws IOException {
+        for (String key: addressBookList.keySet()) {
+            FileIO.write(addressBookList.get(key),key);
+        }
     }
 }
 

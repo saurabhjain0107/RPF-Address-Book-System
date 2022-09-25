@@ -1,9 +1,9 @@
 package com.bridgelabz;
 
+import java.io.IOException;
 import java.util.Scanner;
-
 public class AddressBookMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("Welcome to Address Book");
         AddressBook addressBook=new AddressBook();
         Scanner scanner=new Scanner(System.in);
@@ -22,7 +22,9 @@ public class AddressBookMain {
                     "7.Search Contact \n" +
                     "8.Show number of Contact \n" +
                     "9.Sort Contacts \n" +
-                    "10.Exit");
+                    "10.Write AddressBooks \n" +
+                    "11.Read AddressBooks \n" +
+                    "12.Exit");
             int option=scanner.nextInt();
             switch (option){
                 case 1:
@@ -54,7 +56,13 @@ public class AddressBookMain {
                     addressBook.sortContact();
                     break;
                 case 10:
-                    flag1=false;
+                    addressBook.writeAddressBook();
+                    break;
+                case 11:
+                    addressBook.readAddressBook();
+                    break;
+                case 12:
+                    flag1 = false;
                     break;
                 default:
                     System.out.println(option+" is not valid option");
